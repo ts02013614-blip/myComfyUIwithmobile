@@ -79,8 +79,8 @@ TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
 DOWNLOAD="$TMP_DIR/download"
 
-if find "$CHECKPOINT_DIR" -maxdepth 1 -type f -name '*.safetensors' | grep -q .; then
-    log "A safetensors checkpoint already exists; skipping Drive download"
+if [ -s "$CHECKPOINT_DIR/$MODEL_NAME" ]; then
+    log "Target model already exists; skipping Drive download"
 else
     log "Downloading model from Google Drive"
     gdown "https://drive.google.com/uc?id=$MODEL_FILE_ID" -O "$DOWNLOAD"
